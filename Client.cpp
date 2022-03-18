@@ -11,23 +11,17 @@ Client *Client::connectToServer(const std::string &address, int port) {
     int                 socket_fd;
     struct sockaddr_in  server_addr;
 
-    if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        perror("Socket initialization error");
+    if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
         return 0;
-    }
 
     bzero(&server_addr, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
 
-    if (inet_pton(AF_INET, address.c_str(), &server_addr.sin_addr) <= 0) {
-        perror("Invalid address format");
+    if (inet_pton(AF_INET, address.c_str(), &server_addr.sin_addr) <= 0)
         return 0;
-    }
-    if (connect(socket_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
-        perror("Connect error");
+    if (connect(socket_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0)
         return 0;
-    }
 
     return new Client(socket_fd);
 }
