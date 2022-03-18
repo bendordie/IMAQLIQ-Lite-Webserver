@@ -48,9 +48,6 @@ bool Client::sendFile(const std::string &file_path) {
         std::getline(ifs, buffer);
         if (!ifs.eof())
             buffer += '\n';
-
-        std::cout << i << " BUFFER: " << buffer << std::endl;
-
         if (!ifs.eof() && ifs.fail()) {
             std::cerr << "Error: File reading error" << std::endl;
             ifs.close();
