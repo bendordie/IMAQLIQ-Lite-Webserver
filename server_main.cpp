@@ -17,24 +17,23 @@ void signalHandler(int status) {
 
 int main(void) {
 
-    EventSelector   *event_selector = new EventSelector;
-    WebServer       *server =   WebServer::init(event_selector, GlobalVars::g_PORT);
-
-    if (!server) {
-        std::cerr << "Error: " << strerror(errno) << std::endl;
-        exit(1);
-    }
-    pid_t pid = fork();
+    pid_t   pid = fork();
     if(pid < 0) {
         std::cerr << "Error: " << strerror(errno) << std::endl;
         exit(1);
     }
     else if (pid != 0)
         exit(0);
+
     setsid();
+    EventSelector   *event_selector = new EventSelector;
+    WebServer       *server =   WebServer::init(event_selector, GlobalVars::g_PORT);
+    if (!server) {
+        std::cerr << "Error: " << strerror(errno) << std::endl;
+        exit(1);
+    }
     signal(SIGTERM, signalHandler);
     signal(SIGHUP, signalHandler);
-
     event_selector->run();
 
     delete server;
