@@ -5,14 +5,16 @@
 
 void signalHandler(int status) {
 
-    if (WIFSIGNALED(status))
-    {
-        if (status == SIGTERM || status == SIGHUP) {
+    switch (status) {
+        case SIGTERM:
             GlobalVars::g_SHUT_DOWN = true;
-        }
+            break;
+        case SIGHUP:
+            GlobalVars::g_HANG_UP = true;
+            break;
+        default:
+            GlobalVars::g_SHUT_DOWN = true;
     }
-    else
-        exit(WEXITSTATUS(status));
 }
 
 int main(void) {
@@ -25,19 +27,24 @@ int main(void) {
     else if (pid != 0)
         exit(0);
 
-    setsid();
-    EventSelector   *event_selector = new EventSelector;
-    WebServer       *server =   WebServer::init(event_selector, GlobalVars::g_PORT);
-    if (!server) {
-        std::cerr << "Error: " << strerror(errno) << std::endl;
-        exit(1);
-    }
-    signal(SIGTERM, signalHandler);
-    signal(SIGHUP, signalHandler);
-    event_selector->run();
+    for (; !GlobalVars::g_SHUT_DOWN ;) { // пока не будет получен сигнал SIGTERM
 
-    delete server;
-    delete event_selector;
+        setsid();
+        GlobalVars::g_HANG_UP = false;
+        EventSelector   *event_selector = new EventSelector;
+        WebServer       *server =   WebServer::init(event_selector, GlobalVars::g_PORT);
+        if (!server) {
+            std::cerr << "Error: " << strerror(errno) << std::endl;
+            exit(1);
+        }
+        signal(SIGTERM, signalHandler);
+        signal(SIGHUP, signalHandler);
+
+        event_selector->run(); // while(!SIGTERM && !SIGHUP) loop
+
+        delete server;
+        delete event_selector;
+    }
 
     return 0;
 }
