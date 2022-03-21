@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstring>
 #include <list>
+#include <stdio.h>
 #include <fstream>
 #include <syslog.h>
 #include "WebServer.hpp"

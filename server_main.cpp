@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <signal.h>
+#include <stdio.h>
 #include "WebServer.hpp"
 #include "global_variables.hpp"
 
@@ -21,7 +22,7 @@ int main(void) {
 
     pid_t   pid = fork();
     if(pid < 0) {
-        std::cerr << "Error: " << strerror(errno) << std::endl;
+        perror("Error: ");
         exit(1);
     }
     else if (pid != 0)
@@ -34,7 +35,7 @@ int main(void) {
         EventSelector   *event_selector = new EventSelector;
         WebServer       *server =   WebServer::init(event_selector, GlobalVars::g_PORT);
         if (!server) {
-            std::cerr << "Error: " << strerror(errno) << std::endl;
+            perror("Error: ");
             exit(1);
         }
         signal(SIGTERM, signalHandler);
