@@ -10,6 +10,7 @@
 #include <cstring>
 #include <list>
 #include <stdio.h>
+#include <strings.h>
 #include <fstream>
 #include <syslog.h>
 #include "WebServer.hpp"

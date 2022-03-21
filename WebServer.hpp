@@ -7,6 +7,7 @@
 #include <netinet/in.h>
 #include <list>
 #include <stdio.h>
+#include <strings.h>
 #include "FdHandler.hpp"
 #include "EventSelector.hpp"
 #include "WebSession.hpp"

@@ -7,6 +7,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <fstream>
+#include <strings.h>
 
 class Client {
 
