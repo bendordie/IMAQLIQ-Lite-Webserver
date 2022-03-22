@@ -53,7 +53,7 @@ void EventSelector::breakLoop() { GlobalVars::g_SHUT_DOWN = true; }
 
 void EventSelector::run() {
 
-    for (; !GlobalVars::g_SHUT_DOWN && !GlobalVars::g_HANG_UP; ) { // пока не отловлен SIGTERM и SIGHUP
+    for (; !GlobalVars::g_SHUT_DOWN; ) { // пока не отловлен SIGTERM и SIGHUP
         int     i;
         fd_set  read_set;
 
