@@ -2,9 +2,9 @@
 
 ## Getting started
 
-Write <code>make</code> in the console in the root directory of the project.
+Run <code>make</code> in terminal in the root directory of the project.
 
-Then <code>./server</code> to run server. It will be executed in daemon mode and will be ready to service a clients.
+Then run <code>./server</code> to start server. It will be executed in daemon mode and will be ready to service a clients.
 
 To run client application do <code>./client \<ip\> \<port\> \<file_path\></code>. By default ip is 127.0.0.1 and port is 80.
   
